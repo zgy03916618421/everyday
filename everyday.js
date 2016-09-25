@@ -6,8 +6,8 @@ var redis = require('redis')
 var fs = require('fs')
 var schedule = require('node-schedule');
 var rule = new schedule.RecurrenceRule();
-rule.hour = 21;
-rule.minute=47;
+rule.hour = 23;
+rule.minute=55;
 var count = 1;
 var client = redis.createClient(6379,'192.168.200.2',{});
 var j = schedule.scheduleJob(rule, function(){
@@ -44,7 +44,7 @@ var j = schedule.scheduleJob(rule, function(){
                     'button':[
                         {
                             'type':'view',
-                            'name':'往期精选',
+                            'name':'往期精�?,
                             'url' : 'http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=MzAxMzY2ODA1MQ==#wechat_webview_type=1&wechat_redirect'
                         },
                         {
@@ -54,7 +54,7 @@ var j = schedule.scheduleJob(rule, function(){
                         },
                         {
                             'type':'view',
-                            'name':'传纸条',
+                            'name':'传纸�?,
                             'url':'https://share.beautifulreading.com/suriv/home'
                         }
                     ]
