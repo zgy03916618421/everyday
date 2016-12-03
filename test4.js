@@ -6,11 +6,27 @@ var redis = require('redis')
 var fs = require('fs')
 var schedule = require('node-schedule');
 var rule = new schedule.RecurrenceRule();
-rule.hour = 21;
-rule.minute=47;
-var count = 1;
+rule.hour = 0;
+rule.minute = 1;
 var client = redis.createClient(6379,'192.168.200.2',{});
 var j = schedule.scheduleJob(rule, function(){
+  /*  var date = new Date();
+    var day = date.getDate().toString();
+    if(day.length<2){
+        day = '0'+day;
+    }
+    var month = date.getMonth() + 1;
+    month = month.toString();
+    if(month.length<2){
+        month = '0'+month;
+    }*/
+  var date = new Date();
+  var local_date = date.toLocaleDateString();
+  var day = local_date.split('/')[1];
+  var month = local_date.split('/')[0];
+  day = day.length>1 ? day : '0' +day;
+  month = month.length>1 ? month :'0'+month
+    var filename = month + day;
     client.get('wechat_accesstoken',function (err,token) {
         console.log(token)
         var opts = {
@@ -25,8 +41,8 @@ var j = schedule.scheduleJob(rule, function(){
             },
             formData: {
                 media: {
-                    value: fs.readFileSync('img/'+count+'.png'),
-                    options: {filename:count+'.png', contentType: 'image/png'}
+                    value: fs.readFileSync('img/'+filename+'.png'),
+                    options: {filename:filename+'.png', contentType: 'image/png'}
                 }
             }
         }
@@ -54,8 +70,8 @@ var j = schedule.scheduleJob(rule, function(){
                         },
                         {
                             'type':'view',
-                            'name':'传纸条',
-                            'url':'https://share.beautifulreading.com/suriv/home'
+                            'name':'Up起来',
+                            'url':'https://share.beautifulreading.com/suriv/home?source=bookface'
                         }
                     ]
                 },
@@ -63,7 +79,6 @@ var j = schedule.scheduleJob(rule, function(){
             }
             request(opts,function (err,response,body) {
                 console.log(body);
-                count++;
             })
         })
     })
