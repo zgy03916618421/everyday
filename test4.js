@@ -27,6 +27,7 @@ var j = schedule.scheduleJob(rule, function(){
   day = day.length>1 ? day : '0' +day;
   month = month.length>1 ? month :'0'+month
     var filename = month + day;
+  console.log(filename);
     client.get('wechat_accesstoken',function (err,token) {
         console.log(token)
         var opts = {
